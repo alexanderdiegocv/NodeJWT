@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <% if (user) { %>
+                    <li>Welcome, <%= user.username %></li>
+                    <li><a href="/logout">Logout</a></li>
+                <% } else { %>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+                <% } %>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Protected</h1>
+        <p>This is a protected page. You can only see this if you are logged in.</p>
+
+        <p><a href="/">Go back to home</a></p>
+    </main>
+</body>
+</html>

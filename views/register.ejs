@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="./css/style.css" type="text/css">  
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <% if (user) { %>
+                    <li>Welcome, <%= user.username %></li>
+                    <li><a href="/logout">Logout</a></li>
+                <% } else { %>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+                <% } %>
+            </ul>
+        </nav>
+    </header>
+    <main>
+      <h1>Register</h1>
+      <form id="register-form">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required>
+          <br>
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
+          <br>
+          <button type="submit">Register</button>
+      </form>
+      <p>Already have an account? <a href="/login">Login here</a></p>
+    </main>
+
+    <script>
+      console.log('Hello from register.ejs');
+
+      const $form = document.getElementById('register-form');
+      const $username = document.getElementById('username');
+      const $password = document.getElementById('password');
+
+      $form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          const response = await fetch('/register', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  username: $username.value,
+                  password: $password.value
+              })
+          });
+
+          if (response.ok) {
+              window.location.href = '/home';
+          } else {
+              alert('Registration failed. Please try again.');
+          }
+      });
+    </script>
+</body>
+</html>
