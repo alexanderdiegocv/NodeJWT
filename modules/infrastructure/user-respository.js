@@ -1,5 +1,6 @@
 import DBLocal from 'db-local'
 import { SALT_ROUNDS } from '../../config.js'
+import { ValidationError } from './validation.js'
 import bcrypt from 'bcrypt'
 import crypto from 'node:crypto'
 import { z } from 'zod'
@@ -16,7 +17,6 @@ const UserModel = z.object({
   _id: z.string().uuid().optional(),
   username: z.string(),
   password: z.string().min(6).max(20)
-  // password: z.string().min(6).max(20).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,20}$/)
 })
 
 export class UserRepository {
@@ -24,19 +24,19 @@ export class UserRepository {
     const result = UserModel.safeParse({ username, password })
 
     if (!result.success) {
-      throw new Error(result.error)
+      throw new ValidationError(result.error)
     }
 
     const user = User.findOne({ username })
 
     if (!user) {
-      throw new Error('User not found')
+      throw new ValidationError('User not found')
     }
 
     const isValid = await bcrypt.compare(password, user.password)
 
     if (!isValid) {
-      throw new Error('Invalid password')
+      throw new ValidationError('Invalid password')
     }
 
     // const { password: _, ...userData } = user

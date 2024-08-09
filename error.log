@@ -1,0 +1,1 @@
+{"message":"Invalid password","stack":"ValidationError: Invalid password\n    at UserRepository.login (file:///D:/Personal%20Proyects/NodeJWT/modules/infrastructure/user-respository.js:39:13)\n    at async file:///D:/Personal%20Proyects/NodeJWT/app.js:24:18"}
